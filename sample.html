@@ -1,0 +1,37 @@
+<html>
+	<script>	
+		var msg = new SpeechSynthesisUtterance();
+		var voices = window.speechSynthesis.getVoices();
+		msg.voice = voices[10]; // Note: some voices don't support altering params
+		msg.voiceURI = 'native';
+		msg.volume = 1; // 0 to 1
+		msg.rate = 1; // 0.1 to 10
+		msg.pitch = 2; //0 to 2
+		msg.text = '<?xml version="1.0"?><speak xmlns="http://www.w3.org/2001/10/synthesis" xmlns:dc="http://purl.org/dc/elements/1.1/"       version="1.0">  <metadata>    <dc:title xml:lang="en">Telephone Menu: Level 1</dc:title>  </metadata>  <p>    <s xml:lang="en-US">      <voice name="David" gender="male" age="25">        For English, press <emphasis>one</emphasis>.  </voice>   </s>  </p></speak>';
+		msg.lang = 'en-US';
+
+		msg.onend = function(e) {
+			console.log('Finished in ' + event.elapsedTime + ' seconds.');
+			document.getElementById('test').src = './closing/closing.jpg'; 
+		};
+		
+		var toggle = true;
+		msg.onboundary = function(e) { 
+			if(toggle) {
+				document.getElementById('test').src = './closing/closing.jpg'; 
+			} else {
+				document.getElementById('test').src = './closing/closing.png'; 
+			}
+			toggle = !toggle;
+			
+		}
+		msg.mark = function(e) {
+						
+			console.log('test: ' + e); 
+		}
+		speechSynthesis.speak(msg);
+	</script>
+	
+	<img id="test" src='./closing/closing.jpg' />
+
+</html>
